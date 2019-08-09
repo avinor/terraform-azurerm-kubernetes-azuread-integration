@@ -11,7 +11,7 @@ resource "azuread_application" "server" {
   identifier_uris            = ["https://${var.server_name}"]
   available_to_other_tenants = false
   oauth2_allow_implicit_flow = false
-  group_membership_claims = "All"
+  group_membership_claims    = "All"
 
   required_resource_access {
     # MicrosoftGraph API
@@ -38,6 +38,28 @@ resource "azuread_application" "server" {
       type = "Scope"
     }
   }
+}
+
+resource "null_resource" "grant" {
+  count = var.grant_access ? 1 : 0
+
+  # TODO Not possible to do with azuread resources
+  provisioner "local-exec" {
+    command = "az ad app permission grant --id ${azuread_application.server.application_id} --api 00000003-0000-0000-c000-000000000000"
+  }
+
+  depends_on = ["azuread_application.server"]
+}
+
+resource "null_resource" "admin_consent" {
+  count = var.grant_access ? 1 : 0
+
+  # TODO Not possible to do with azuread resources
+  provisioner "local-exec" {
+    command = "az ad app permission admin-consent --id ${azuread_application.server.application_id}"
+  }
+
+  depends_on = ["null_resource.admin_consent"]
 }
 
 resource "azuread_service_principal" "server" {
