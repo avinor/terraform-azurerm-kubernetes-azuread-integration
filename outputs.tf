@@ -10,6 +10,6 @@ output "server_app_id" {
 
 output "server_app_secret" {
   description = "Password for service principal."
-  value       = random_string.server.result
+  value       = azuread_service_principal_password.server.value
   sensitive   = true
 }

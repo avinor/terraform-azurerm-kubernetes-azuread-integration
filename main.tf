@@ -1,5 +1,8 @@
 terraform {
   required_version = ">= 0.12.0"
+  required_providers {
+    azuread = ">= 0.5.0"
+  }
 }
 
 #
@@ -8,10 +11,23 @@ terraform {
 
 resource "azuread_application" "server" {
   name                       = var.server_name
-  identifier_uris            = ["https://${var.server_name}"]
+  reply_urls                 = ["https://${var.server_name}"]
+  type                       = "webapp/api"
   available_to_other_tenants = false
   oauth2_allow_implicit_flow = false
   group_membership_claims    = "All"
+
+  required_resource_access {
+    # Windows Azure Active Directory API
+    resource_app_id = "00000002-0000-0000-c000-000000000000"
+
+    resource_access {
+      # DELEGATED PERMISSIONS: "Sign in and read user profile":
+      # 311a71cc-e848-46a1-bdf8-97ff7156d8e6
+      id   = "311a71cc-e848-46a1-bdf8-97ff7156d8e6"
+      type = "Scope"
+    }
+  }
 
   required_resource_access {
     # MicrosoftGraph API
@@ -92,6 +108,18 @@ resource "azuread_application" "client" {
   name       = var.client_name
   reply_urls = ["https://${var.client_name}"]
   type       = "native"
+
+  required_resource_access {
+    # Windows Azure Active Directory API
+    resource_app_id = "00000002-0000-0000-c000-000000000000"
+
+    resource_access {
+      # DELEGATED PERMISSIONS: "Sign in and read user profile":
+      # 311a71cc-e848-46a1-bdf8-97ff7156d8e6
+      id   = "311a71cc-e848-46a1-bdf8-97ff7156d8e6"
+      type = "Scope"
+    }
+  }
 
   required_resource_access {
     # AKS ad application server
