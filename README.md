@@ -15,7 +15,7 @@ Examples use [tau](https://github.com/avinor/tau).
 ```terraform
 module {
     source = "avinor/kubernetes-azuread-integration/azurerm"
-    version = "1.0.0"
+    version = "1.0.1"
 }
 
 inputs {
