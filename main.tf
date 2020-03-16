@@ -52,7 +52,7 @@ resource "null_resource" "grant" {
     command = "az ad app permission grant --id ${azuread_application.server.application_id} --api 00000003-0000-0000-c000-000000000000"
   }
 
-  depends_on = ["azuread_application.server"]
+  depends_on = [azuread_application.server]
 }
 
 resource "null_resource" "admin_consent" {
@@ -63,7 +63,7 @@ resource "null_resource" "admin_consent" {
     command = "az ad app permission admin-consent --id ${azuread_application.server.application_id}"
   }
 
-  depends_on = ["null_resource.admin_consent"]
+  depends_on = [null_resource.admin_consent]
 }
 
 resource "azuread_service_principal" "server" {
