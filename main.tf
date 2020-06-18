@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12.0"
   required_providers {
-    azuread = ">= 0.10.0"
+    azuread = "~> 0.10.0"
   }
 }
 
