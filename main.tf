@@ -1,7 +1,7 @@
 terraform {
   required_version = ">= 0.12.0"
   required_providers {
-    azuread = ">= 0.5.0"
+    azuread = "~> 0.10.0"
   }
 }
 
@@ -103,7 +103,7 @@ resource "azuread_application" "client" {
 
     resource_access {
       # Server app Oauth2 permissions id
-      id   = lookup(azuread_application.server.oauth2_permissions[0], "id")
+      id   = [for permission in azuread_application.server.oauth2_permissions : permission.id][0]
       type = "Scope"
     }
   }
