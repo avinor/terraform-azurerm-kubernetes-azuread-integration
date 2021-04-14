@@ -1,7 +1,18 @@
 terraform {
   required_version = ">= 0.12.0"
   required_providers {
-    azuread = "~> 0.10.0"
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 0.10.0"
+    }
+    null = {
+      source = "hashicorp/null"
+      version = "~> 3.1.0"
+    }
+    random = {
+      source = "hashicorp/random"
+      version = "~> 3.1.0"
+    }
   }
 }
 
