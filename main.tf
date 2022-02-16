@@ -29,18 +29,6 @@ resource "azuread_application" "server" {
   group_membership_claims    = "All"
 
   required_resource_access {
-    # Windows Azure Active Directory API
-    resource_app_id = "00000002-0000-0000-c000-000000000000"
-
-    resource_access {
-      # DELEGATED PERMISSIONS: "Sign in and read user profile":
-      # 311a71cc-e848-46a1-bdf8-97ff7156d8e6
-      id   = "311a71cc-e848-46a1-bdf8-97ff7156d8e6"
-      type = "Scope"
-    }
-  }
-
-  required_resource_access {
     # MicrosoftGraph API
     resource_app_id = "00000003-0000-0000-c000-000000000000"
 
@@ -119,18 +107,6 @@ resource "azuread_application" "client" {
   display_name = var.client_name
   reply_urls   = ["https://${var.client_name}"]
   type         = "native"
-
-  required_resource_access {
-    # Windows Azure Active Directory API
-    resource_app_id = "00000002-0000-0000-c000-000000000000"
-
-    resource_access {
-      # DELEGATED PERMISSIONS: "Sign in and read user profile":
-      # 311a71cc-e848-46a1-bdf8-97ff7156d8e6
-      id   = "311a71cc-e848-46a1-bdf8-97ff7156d8e6"
-      type = "Scope"
-    }
-  }
 
   required_resource_access {
     # AKS ad application server
